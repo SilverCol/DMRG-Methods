@@ -1,0 +1,92 @@
+\documentclass[a4paper]{article}
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[margin=2cm, bottom=3cm, foot=1.5cm]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{dirtytalk}
+
+\newcommand{\tht}{\theta}
+\newcommand{\Tht}{\Theta}
+\newcommand{\dlt}{\delta}
+\newcommand{\eps}{\epsilon}
+\newcommand{\thalf}{\frac{3}{2}}
+\newcommand{\ddx}[1]{\frac{d^2#1}{dx^2}}
+\newcommand{\ddr}[2]{\frac{\partial^2#1}{\partial#2^2}}
+\newcommand{\mddr}[3]{\frac{\partial^2#1}{\partial#2\partial#3}}
+
+\newcommand{\der}[2]{\frac{d#1}{d#2}}
+\newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\forth}{\frac{1}{4}}
+\newcommand{\q}{\underline{q}}
+\newcommand{\p}{\underline{p}}
+\newcommand{\x}{\underline{x}}
+\newcommand{\liu}{\hat{\mathcal{L}}}
+\newcommand{\bigO}[1]{\mathcal{O}\left( #1 \right)}
+\newcommand{\pauli}{\mathbf{\sigma}}
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\id}[1]{\mathbf{1}_{2^{#1}}}
+\newcommand{\tinv}{\frac{1}{\tau}}
+\newcommand{\s}{\sigma}
+\newcommand{\vs}{\vec{\s}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\vq}{\vec{q}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vo}{\vec{\omega}}
+\newcommand{\uvs}{\underline{\vs}}
+\newcommand{\expected}[1]{\left\langle #1 \right\rangle}
+\newcommand{\D}{\Delta}
+
+\newcommand{\range}[2]{#1, \ldots, #2}
+\newcommand{\seq}[2]{#1 \ldots #2}
+\newcommand{\psiCoef}[2]{\psi_{\range{#1}{#2}}}
+\newcommand{\psiCoeff}[3]{\psi_{#1, \range{#2}{#3}}}
+\newcommand{\mpa}[2]{#1^{(#2)}_{s_#2}}
+\newcommand{\us}{\underline{s}}
+
+\begin{document}
+
+    \title{\sc\large Višje računske metode\\
+		\bigskip
+		\bf\Large Matrično produktni nastavki}
+	\author{Mitja Vodnik, 28182041}
+            \date{\today}
+	\maketitle
+
+    Bistvo te naloge je, da ustvarimo metodo za generiranje matrično produktnih nastavkov (MPA) za stanja verig spinov $\half$.
+    To pomeni, da hočemo za neko stanje $\ket{\psi}$ verige dolžine $n$ generirati set matrik
+    $\big\{\mpa{A}{j} | s_j \in \{0, 1\}, j = \range{1}{n}\big\}$, da velja:\\
+
+    \begin{equation}\label{eq1}
+        \ket{\psi} = \sum_{\range{s_1}{s_n}} \psiCoef{s_1}{s_n} \ket{\seq{s_1}{s_n}}
+    \end{equation}
+
+    \iffalse
+    \begin{figure}
+        \centering
+        \includegraphics[width = \textwidth]{slika1.pdf}
+        \caption{Odvisnost entropije prepletenosti simetrične biparticije osnovnega stanja od dolžine verige. Dolžine verig na tem grafu so le sode.}
+        \label{slika1}
+    \end{figure}
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika4a.pdf}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika4b.pdf}
+        \end{subfigure}
+        \caption{Odvisnost entropije prepletenosti od velikosti blokov biparticije osnovnega stanja s periodičnimi robnimi pogoji.}
+        \label{slika4}
+    \end{figure}
+    \fi
+
+\end{document}
