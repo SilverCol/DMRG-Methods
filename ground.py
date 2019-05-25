@@ -28,7 +28,15 @@ for step in range(steps):
         C11 = U0 * la.multi_dot(L[j-1], B[j][1], L[j], B[j][1], L[j+1])
 
         # Assemble the Q matrix
-        pass
+        upper = np.empty((C00.shape[0], 2 * C00.shape[1]))
+        upper[:, 0::2] = C00
+        upper[:, 1::2] = C01
+        lower = np.empty((C11.shape[0], 2 * C11.shape[1]))
+        lower[:, 0::2] = C10
+        lower[:, 1::2] = C11
+        Q = np.empty((2*upper.shape[0], upper.shape[1]))
+        Q[0::2] = upper
+        Q[1::2] = lower
 
     # Even spins
     for j in range(2, n + 1, 2):
