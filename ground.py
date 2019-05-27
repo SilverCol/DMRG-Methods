@@ -9,13 +9,15 @@ L = [np.array([1]) for j in range(n + 2)]
 # Set propagation constants
 steps = 1000
 z = -.01
-error = 1e-10
+error = 1e-5
+factor = 0.
 U0 = np.exp(z)
 U1 = np.exp(-z) * np.cosh(2*z) 
 U2 = np.exp(-z) * np.sinh(2*z)
 
 # The local TEBD algorithm
 def tebd(j):
+    global factor
     # Create the set of 4 matrices 
     C00 = U0 * la.multi_dot([np.diag(L[j-1]), B[j][0], np.diag(L[j]), B[j+1][0], np.diag(L[j+1])])
 
@@ -41,7 +43,12 @@ def tebd(j):
     print(Q.shape)
 
     # Do the SVD, truncate the result
+    # print('Calculating SVD...', end=' ', flush=True)
     U, D, V = la.svd(Q, full_matrices=False)
+    # print('Done')
+    norm = la.norm(D)
+    D /= norm
+    factor += np.log(norm)
     Mmax = D.size - np.argmax(np.cumsum(np.flip(D**2)) > error)
     U = U[:, :Mmax]
     D = D[:Mmax]
@@ -69,3 +76,4 @@ for step in range(steps):
     for j in range(2, n + 1, 2):
         tebd(j)
 print()
+print(np.exp(factor))
