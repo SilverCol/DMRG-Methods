@@ -2,13 +2,14 @@ import numpy as np
 from numpy import linalg as la
 
 # Create a Neel initial MPA
-n = 50
+n = 20
 B = [ [np.array([[1 - j%2]]), np.array([[j%2]])] for j in range(n + 2)]
 L = [np.array([1]) for j in range(n + 2)]
 
 # Set propagation constants
 steps = 1000
 z = -.01
+error = 1e-10
 U0 = np.exp(z)
 U1 = np.exp(-z) * np.cosh(2*z) 
 U2 = np.exp(-z) * np.sinh(2*z)
@@ -39,14 +40,18 @@ def tebd(j):
     Q[1::2] = lower
     print(Q.shape)
 
-    # Update the MPA
+    # Do the SVD, truncate the result
     U, D, V = la.svd(Q, full_matrices=False)
+    Mmax = D.size - np.argmax(np.cumsum(np.flip(D**2)) > error)
+    U = U[:, :Mmax]
+    D = D[:Mmax]
+    V = V[:Mmax]
 
+    # Update the MPA
     U = np.dot(np.diag(np.repeat(1/L[j-1], 2)), U)
     B[j][0] = U[0::2]
     B[j][1] = U[1::2]
 
-    # TODO do the truncation
     L[j] = D
 
     V = np.dot(V, np.diag(np.repeat(1/L[j+1], 2)))
