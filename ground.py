@@ -18,14 +18,14 @@ for step in range(steps):
     # Odd spins
     for j in range(1, n + 1, 2):
         # Create the set of 4 matrices 
-        C00 = U0 * la.multi_dot(L[j-1], B[j][0], L[j], B[j][0], L[j+1])
+        C00 = U0 * la.multi_dot(np.diag(L[j-1]), B[j][0], np.diag(L[j]), B[j][0], np.diag(L[j+1]))
 
-        t01 = la.multi_dot(B[j][0], L[j], B[j][1])
-        t10 = la.multi_dot(B[j][1], L[j], B[j][0])
-        C01 = la.multi_dot(L[j-1], U1 * t01 + U2 * t10, L[j+1])
-        C10 = la.multi_dot(L[j-1], U1 * t10 + U2 * t01, L[j+1])
+        t01 = la.multi_dot(B[j][0], np.diag(L[j]), B[j][1])
+        t10 = la.multi_dot(B[j][1], np.diag(L[j]), B[j][0])
+        C01 = la.multi_dot(np.diag(L[j-1]), U1 * t01 + U2 * t10, np.diag(L[j+1]))
+        C10 = la.multi_dot(np.diag(L[j-1]), U1 * t10 + U2 * t01, np.diag(L[j+1]))
 
-        C11 = U0 * la.multi_dot(L[j-1], B[j][1], L[j], B[j][1], L[j+1])
+        C11 = U0 * la.multi_dot(np.diag(L[j-1]), B[j][1], np.diag(L[j]), B[j][1], np.diag(L[j+1]))
 
         # Assemble the Q matrix
         upper = np.empty((C00.shape[0], 2 * C00.shape[1]))
@@ -37,6 +37,18 @@ for step in range(steps):
         Q = np.empty((2*upper.shape[0], upper.shape[1]))
         Q[0::2] = upper
         Q[1::2] = lower
+
+        # Update the MPA
+        U, D, V = la.svd(Q, full_matrices=False)
+        U = np.dot(np.diag(np.repeat(1/L[j-1], 2)), U)
+        B[j][0] = U[0::2]
+        B[j][1] = U[1::2]
+        # TODO try storing them as diagonal matrices... (careful on repeat)
+        # TODO do the truncation
+        L[j] = D
+        V = np.dot(V, np.diag(np.repeat(1/L[j+1], 2)))
+        B[j+1][0] = V[:, 0::2]
+        B[j+1][1] = V[:, 1::2]
 
     # Even spins
     for j in range(2, n + 1, 2):
