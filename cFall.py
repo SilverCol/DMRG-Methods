@@ -2,6 +2,7 @@ from statistics import stdev, mean
 import numpy as np
 from matplotlib import pyplot as plt
 
+option = 2
 n = 100
 C = np.load('data/corr-%d.npy' % n)
 
@@ -20,17 +21,18 @@ for j in range(n):
 
 devs = [stdev(points[r])/abs(mean(points[r])) for r in range(n - 1)]
 
-# ax.set_ylabel('$C(0, k)$')
-# ax.set_xlabel('$k$')
-# ax.plot(C[0])
-
-# ax.set_ylabel('$\\sigma (C(r)) / \\langle C(r) \\rangle$')
-# ax.set_xlabel('$r$')
-# ax.plot(devs)
-
-r = 1
-ax.set_ylabel('$C(j, j + %d)$' % r)
-ax.set_xlabel('$j$')
-ax.plot(range(1, n - r + 1), points[r])
+if option == 0:
+    ax.set_ylabel('$C(0, k)$')
+    ax.set_xlabel('$k$')
+    ax.plot(C[0])
+elif option == 1:
+    ax.set_ylabel('$\\sigma (C(r)) / \\langle C(r) \\rangle$')
+    ax.set_xlabel('$r$')
+    ax.plot(devs)
+else:
+    r = 1
+    ax.set_ylabel('$C(j, j + %d)$' % r)
+    ax.set_xlabel('$j$')
+    ax.plot(range(1, n - r + 1), points[r])
 
 plt.show()
