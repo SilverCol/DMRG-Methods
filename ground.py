@@ -3,7 +3,7 @@ from numpy import linalg as la
 from matplotlib import pyplot as plt
 
 # Create a Neel initial MPA
-for n in range(6, 21, 2):
+for n in (50, 80, 120):
     B = [ [np.array([[1 - j%2]]), np.array([[j%2]])] for j in range(n + 1)]
     L = [np.array([1]) for j in range(n + 1)]
     
@@ -85,7 +85,7 @@ for n in range(6, 21, 2):
     energies = []
     errors = []
     for beta in np.arange(-z, - steps * z, -z):
-        print('Beta %.2e' % beta, end='\r')
+        print('n %d Beta %.2e' % (n, beta), end='\r')
         # Odd spins
         for j in range(1, n, 2):
             tebd(j)
@@ -102,13 +102,13 @@ for n in range(6, 21, 2):
     mpa = np.array([B, L])
     np.save('data/mpa-%d.npy' % n, mpa)
     
-    plt.rcParams.update({'font.size': 15})
-    fig = plt.figure()
-    ax = fig.subplots()
-    
-    ax.grid()
-    ax.set_ylabel('$E$')
-    ax.set_xlabel('$\\beta$')
-    ax.set_title('$n = %d$' % n)
-    line = ax.plot(data[0], data[1])
-    plt.show()
+    # plt.rcParams.update({'font.size': 15})
+    # fig = plt.figure()
+    # ax = fig.subplots()
+    # 
+    # ax.grid()
+    # ax.set_ylabel('$E$')
+    # ax.set_xlabel('$\\beta$')
+    # ax.set_title('$n = %d$' % n)
+    # line = ax.plot(data[0], data[1])
+    # plt.show()
