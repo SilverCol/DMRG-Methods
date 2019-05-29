@@ -1,15 +1,16 @@
 import numpy as np
 from numpy import linalg as la
+from matplotlib import pyplot as plt
 
 # Create a Neel initial MPA
-n = 20
+n = 100
 B = [ [np.array([[1 - j%2]]), np.array([[j%2]])] for j in range(n + 1)]
 L = [np.array([1]) for j in range(n + 1)]
 
 # Set propagation constants
 steps = 1000
 z = -.01
-tolerance = 1e-7
+tolerance = 1e-8
 factor = 0.
 error = 0.
 U0 = np.exp(z)
@@ -42,7 +43,7 @@ def tebd(j):
     Q = np.empty((2*upper.shape[0], upper.shape[1]))
     Q[0::2] = upper
     Q[1::2] = lower
-    # print(Q.shape)
+    print(Q.shape)
 
     # Do the SVD, truncate the result
     # print('Calculating SVD...', end=' ', flush=True)
@@ -95,4 +96,13 @@ for beta in np.arange(-z, - steps * z, -z):
     errors.append(error * energies[-1])
 print()
 
+plt.rcParams.update({'font.size': 15})
+fig = plt.figure()
+ax = fig.subplots()
 
+ax.grid()
+ax.set_ylabel('$E$')
+ax.set_xlabel('$\\beta$')
+ax.set_title('$n = %d$' % n)
+line = ax.errorbar(betas, energies, yerr=errors)
+plt.show()
