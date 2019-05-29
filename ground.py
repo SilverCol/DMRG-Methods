@@ -3,14 +3,14 @@ from numpy import linalg as la
 from matplotlib import pyplot as plt
 
 # Create a Neel initial MPA
-n = 100
+n = 20
 B = [ [np.array([[1 - j%2]]), np.array([[j%2]])] for j in range(n + 1)]
 L = [np.array([1]) for j in range(n + 1)]
 
 # Set propagation constants
-steps = 1000
+steps = 10000
 z = -.01
-tolerance = 1e-8
+tolerance = 1e-5
 factor = 0.
 error = 0.
 U0 = np.exp(z)
@@ -43,7 +43,7 @@ def tebd(j):
     Q = np.empty((2*upper.shape[0], upper.shape[1]))
     Q[0::2] = upper
     Q[1::2] = lower
-    print(Q.shape)
+    # print(Q.shape)
 
     # Do the SVD, truncate the result
     # print('Calculating SVD...', end=' ', flush=True)
@@ -53,7 +53,8 @@ def tebd(j):
     norm = la.norm(D)
     D /= norm
     factor += np.log(norm)
-    Mmax = D.size - np.argmax(np.cumsum(np.flip(D**2)) > tolerance)
+    # Mmax = D.size - np.argmax(np.cumsum(np.flip(D**2)) > tolerance)
+    Mmax = 10
     error += np.sum(D[Mmax:]**2)
     U = U[:, :Mmax]
     D = D[:Mmax]
@@ -92,9 +93,14 @@ for beta in np.arange(-z, - steps * z, -z):
     for j in range(2, n, 2):
         tebd(j)
     betas.append(beta)
-    energies.append(-(np.log(neelComponent()) + factor) / beta)
+    energies.append(- (np.log(neelComponent()) + factor) / beta)
     errors.append(error * energies[-1])
 print()
+
+data = np.array([betas, energies, errors])
+np.save('data/energies-%d.npy' % n, data)
+mpa = np.array([B, L])
+np.save('data/mpa-%d.npy' % n, mpa)
 
 plt.rcParams.update({'font.size': 15})
 fig = plt.figure()
@@ -104,5 +110,5 @@ ax.grid()
 ax.set_ylabel('$E$')
 ax.set_xlabel('$\\beta$')
 ax.set_title('$n = %d$' % n)
-line = ax.errorbar(betas, energies, yerr=errors)
+line = ax.plot(data[0], data[1])
 plt.show()
