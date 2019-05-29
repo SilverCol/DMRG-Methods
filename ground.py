@@ -3,7 +3,7 @@ from numpy import linalg as la
 from matplotlib import pyplot as plt
 
 # Create a Neel initial MPA
-for n in (50, 80, 120):
+for n in (200, ):
     B = [ [np.array([[1 - j%2]]), np.array([[j%2]])] for j in range(n + 1)]
     L = [np.array([1]) for j in range(n + 1)]
     
