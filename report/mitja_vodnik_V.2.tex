@@ -50,6 +50,8 @@
 \newcommand{\psiCoeff}[3]{\psi_{#1, \range{#2}{#3}}}
 \newcommand{\mpa}[2]{#1^{(#2)}_{s_#2}}
 \newcommand{\us}{\underline{s}}
+\newcommand{\up}{\uparrow}
+\newcommand{\down}{\downarrow}
 
 \begin{document}
 
@@ -66,7 +68,21 @@
         H = \sum_{j=1}^{n-1} \vs_j \cdot \vs_{j+1}
     \end{equation}
 
-    Konkretno nas zanimajo energije $E_0$ in spin-spin korelacije \ldots
+    Konkretno nas zanimajo energije $E_0$ in spin-spin korelacije $C(j, k) = \expected{\s^z_j\s^z_k}$ v osnovnem stanju.
+
+    \section{TEBD algoritem}
+
+    Naša metoda bo poiskala matrično produktni nastavek (MPA) osnovnega stanja verige. Ideja je naslednja: za začetni približek vzamemo Neelovo
+    stanje ($\ket{\psi(0)} = \ket{\down, \up, \ldots, \down, \up}$ = $\ket{1, 0, \ldots, 1, 0}$) in ga \say{ohladimo} do pravega osnovnega
+    stanja.
+    Ohlajanje dosežemo s propagacijo v imaginarnem času:
+
+    \begin{equation}\label{eq2}
+        \ket{\psi(\beta)} = e^{-\beta H} \ket{\psi(0)} \xrightarrow[\beta \to \infty]{} \ket{\psi_0}
+    \end{equation}
+
+    Propagacijo izvajamo s pomočjo že znane Trotterjeve formule, s tem da imamo sedaj kvantno stanje zapisano v obliki MPA. TEBD algoritem nam opiše
+    kako posamezen lokalni člen propagatorja $U_{j, j+1} = e^{-\beta \vs_j \cdot \vs_{j+1}}$ deluje na MPA.
 
     \iffalse
     \begin{figure}

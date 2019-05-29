@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-n = 20
+n = 100
 C = np.load('data/corr-%d.npy' % n)
 
 plt.rcParams.update({'font.size': 15})

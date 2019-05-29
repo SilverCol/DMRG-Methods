@@ -21,6 +21,7 @@ for j in range(n):
 
 devs = [stdev(points[r])/abs(mean(points[r])) for r in range(n - 1)]
 
+ax.set_title('n = %d' % n)
 if option == 0:
     ax.set_ylabel('$C(0, k)$')
     ax.set_xlabel('$k$')
@@ -30,7 +31,7 @@ elif option == 1:
     ax.set_xlabel('$r$')
     ax.plot(devs)
 else:
-    r = 1
+    r = 51
     ax.set_ylabel('$C(j, j + %d)$' % r)
     ax.set_xlabel('$j$')
     ax.plot(range(1, n - r + 1), points[r])

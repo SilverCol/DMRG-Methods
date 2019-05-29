@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-nes = [10, 20, 50, 80, 100, 120]
+nes = [10, 20, 50, 80, 100, 120, 200]
 
 plt.rcParams.update({'font.size': 15})
 fig = plt.figure()
@@ -17,7 +17,7 @@ for n in nes:
 
 ax.grid()
 ax.set_xscale('log')
-ax.set_ylabel('$E$')
+ax.set_ylabel('$E/n$')
 ax.set_xlabel('$\\beta$')
 ax.legend(lines, names)
 plt.show()
