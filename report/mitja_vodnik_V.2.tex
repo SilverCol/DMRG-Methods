@@ -60,13 +60,13 @@
             \date{\today}
 	\maketitle
 
-    Bistvo te naloge je, da ustvarimo metodo za generiranje matrično produktnih nastavkov (MPA) za stanja verig spinov $\half$.
-    To pomeni, da hočemo za neko stanje $\ket{\psi}$ verige dolžine $n$ generirati set matrik
-    $\big\{\mpa{A}{j} | s_j \in \{0, 1\}, j = \range{1}{n}\big\}$, da velja:\\
+    V tej nalogi nas zanima osnovno stanje Heisenbergove verige $n$ antiferomagnetnih kvantnih spinov:
 
     \begin{equation}\label{eq1}
-        \ket{\psi} = \sum_{\range{s_1}{s_n}} \psiCoef{s_1}{s_n} \ket{\seq{s_1}{s_n}}
+        H = \sum_{j=1}^{n-1} \vs_j \cdot \vs_{j+1}
     \end{equation}
+
+    Konkretno nas zanimajo energije $E_0$ in spin-spin korelacije \ldots
 
     \iffalse
     \begin{figure}
