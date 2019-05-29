@@ -2,7 +2,7 @@ import numpy as np
 from numpy import linalg as la
 from matplotlib import pyplot as plt
 
-n = 100
+n = 20
 mpa = np.load('data/mpa-%d.npy' % n)
 B = mpa[0]
 L = mpa[1]

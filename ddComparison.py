@@ -14,6 +14,7 @@ fig = plt.figure()
 ax = fig.subplots()
 
 ax.grid()
+ax.set_xscale('log')
 ax.set_ylabel('$E$')
 ax.set_xlabel('$\\beta$')
 
