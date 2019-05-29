@@ -71,16 +71,18 @@ def tebd(j):
     B[j+1][1] = V[:, 1::2]
 
 
-def energy():
-    for j in range(1, n):
-        pass
+def neelComponent():
+    c = np.array([[1]])
+    for j in range(1, n + 1):
+        c = la.multi_dot([c, np.diag(L[j - 1]), B[j][j%2]])
+    return c.reshape(())
 
 
 # Propagate
 betas = []
 energies = []
 errors = []
-for beta in np.arange(0.0, - steps * z, -z):
+for beta in np.arange(-z, - steps * z, -z):
     print('Beta %.2e' % beta, end='\r')
     # Odd spins
     for j in range(1, n, 2):
@@ -89,7 +91,8 @@ for beta in np.arange(0.0, - steps * z, -z):
     for j in range(2, n, 2):
         tebd(j)
     betas.append(beta)
-    energies.append(0.0)
+    energies.append(-(np.log(neelComponent()) + factor) / beta)
     errors.append(error * energies[-1])
 print()
-print(error)
+
+
