@@ -15,6 +15,8 @@ for n in nes:
     lines.append(ax.plot(data[-1][0], data[-1][1]/n)[0])
     names.append('$n = %d$' % n)
 
+print(data[-2][1][-1]/120)
+
 ax.grid()
 ax.set_xscale('log')
 ax.set_ylabel('$E/n$')

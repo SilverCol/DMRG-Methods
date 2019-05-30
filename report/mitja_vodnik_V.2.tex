@@ -82,27 +82,110 @@
     \end{equation}
 
     Propagacijo izvajamo s pomočjo že znane Trotterjeve formule, s tem da imamo sedaj kvantno stanje zapisano v obliki MPA. TEBD algoritem nam opiše
-    kako posamezen lokalni člen propagatorja $U_{j, j+1} = e^{-\beta \vs_j \cdot \vs_{j+1}}$ deluje na MPA.
+    delovanje posameznega lokalnega člena propagatorja $U_{j, j+1} = e^{-\beta \vs_j \cdot \vs_{j+1}}$: vsakič je potreben po en singularni razcep,
+    ki nam spremeni dve sosednji matriki v MPA, pri čemer se ohrani kanoničnost.
 
-    \iffalse
+    \section{Energija osnovnega stanja}
+
+    Do energije osnovnega stanja pridemo po dovolj dolgem \say{ohlajanju} začetnega Neelovega stanja $\ket{\psi(0)}$.
+    Računamo jo po naslednjem izrazu:
+
+    \begin{equation}\label{eq3}
+        E_0 = - \lim_{\beta \to \infty} \frac{1}{\beta} \log{\frac{\bra{\psi(0)}e^{-\beta H}\ket{\psi(0)}}{\langle\psi(0)\ket{\psi(0)}}}
+    \end{equation}
+
+    Na sliki~\ref{slika1} za nekaj različnih dolžin verige vidimo, da se po dovolj dolgi propagaciji energija res začne ustaljevati pri neki
+    minimalni vrednosti. Vidimo celo, da se z večanjem dolžine verige energija osnovnega stanja na delec bliža neki fiksni vrednosti - limita bi bila
+    energija na delec v osnovnem stanju neskončne verige.\\
+    Na sliki~\ref{slika2} je prikazano lepo ujemanje limitne vrednosti energije pri propagaciji z energijami osnovnih stanj kratkih verig, dobljenih
+    z diagonalizacijo Hamiltonke.
+    Algoritem torej uspešno najde osnovno stanje, poleg tega pa je uporaben za precej daljše verige, kot metode, ki smo jih spoznali doslej. 
+
     \begin{figure}
         \centering
         \includegraphics[width = \textwidth]{slika1.pdf}
-        \caption{Odvisnost entropije prepletenosti simetrične biparticije osnovnega stanja od dolžine verige. Dolžine verig na tem grafu so le sode.}
+        \caption{Energije verige preračunane na delec. Najnižja vrednost, do katere pridemo na grafu je $E_0/n \approx -1.767$}
         \label{slika1}
     \end{figure}
 
     \begin{figure}
         \centering
+        \includegraphics[width = \textwidth]{slika2.pdf}
+        \caption{Črne črtkane črte prikazujejo vrednost energije osnovnega stanja dobljeno z diagonalizacijo Hamiltonke. Vidimo, da 
+        energije dobljene s TEBD algoritmom konvergirajo točno proti istim vrednostim.}
+        \label{slika2}
+    \end{figure}
+
+    \section{Spin-spin korelacije v osnovnem stanju}
+
+    Ko s TEBD algoritmom smo uspešno prišli do MPA predstavitve osnovnega stanja verige. Z usteznimi kontrakcijami lahko računamo spin-spin
+    korelacije v tem stanju:
+
+    \begin{equation}\label{eq4}
+        \begin{split}
+            C(j, k) &= \bra{\psi_0} \s^z_j\s^z_k \ket{\psi_0} \\
+            &= \bra{L} T^{(2)} \ldots T^{(j-1)}V^{(j)}T^{(j+1)} \ldots T^{(k-1)}V^{(k)}T^{(k+1)} \ldots T^{(n-1)} \ket{R},
+        \end{split}
+    \end{equation}
+
+    kjer smo označili:
+
+    \begin{equation}\label{eq5}
+        T^{(j)} = \sum_{s \in \{0, 1\}} A_s^{(j)} \otimes A_s^{(j)}, \quad
+        \bra{L} = T^{(1)}, \quad
+        \ket{R} = T^{(n)}
+    \end{equation}
+
+    \begin{equation}\label{eq6}
+        V^{(j)} = \sum_{s, s' \in \{0, 1\}} (\s^z_j)_{ss'}  A_s^{(j)} \otimes A_{s'}^{(j)}
+    \end{equation}
+
+    Tako izračunane korelacije lahko uredimo v matriko - dva primera sta prikazana na sliki~\ref{slika3}.
+
+    \begin{figure}
+        \centering
         \begin{subfigure}{\textwidth}
-            \includegraphics[width = \textwidth]{slika4a.pdf}
+            \includegraphics[width = \textwidth]{slika3a.pdf}
         \end{subfigure}
         \begin{subfigure}{\textwidth}
-            \includegraphics[width = \textwidth]{slika4b.pdf}
+            \includegraphics[width = \textwidth]{slika3b.pdf}
         \end{subfigure}
-        \caption{Odvisnost entropije prepletenosti od velikosti blokov biparticije osnovnega stanja s periodičnimi robnimi pogoji.}
+        \caption{Prikaza matrik spinskih korelacij v osnovnem stanju dveh različno dolgih verig.}
+        \label{slika3}
+    \end{figure}
+
+    Postavimo se sedaj na prvi spin in poglejmo, kako spinska korelacija pada z razdaljo. Ta rezultat je prikazan na sliki~\ref{slika4} - korelacija
+    eksponentno pade proti nič.\\
+    Poglejmo še, ali je spinska korelacija odvisna le od razdalje med spinoma: $C(j, k) \stackrel{?}{=} C(|j - k|)$. Iz naslednjih slik je razvidno,
+    da temu ni tako. Slika~\ref{slika5} je dobljena na naslednji način: za vsako medspinsko razdaljo $|j - k|$ je korelacija računana med vsemi
+    možnimi ustreznimi mesti (rezultati za dva primera medspinskih razdalj so prikazani na sliki~\ref{slika6}).
+    Na grafu so prikazana relativna odstopanja od povprečja izračunanih korelacij. Ta odstopanja so daleč od zanemarljivih,
+    torej je korelacija precej odvisna tudi od mesta $j$, s katerega jo računamo in ne le od razdalje.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width = \textwidth]{slika4.pdf}
+        \caption{Padanje spinske korelacije z oddaljevanjem od prvega spina.}
         \label{slika4}
     \end{figure}
-    \fi
+
+    \begin{figure}
+        \centering
+        \includegraphics[width = \textwidth]{slika5.pdf}
+        \caption{Odstopanja korelacij od translacijsko invariantnih vrednosti pokažejo, da korelacije niso odvisne le od medspinskih razdalj.}
+        \label{slika5}
+    \end{figure}
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika6a.pdf}
+        \end{subfigure}
+        \begin{subfigure}{\textwidth}
+            \includegraphics[width = \textwidth]{slika6b.pdf}
+        \end{subfigure}
+        \caption{Primera variacije vrednosti spinskih korelacij pri dveh fiksnih medspinskih razdaljah. ($|j - k| \in \{50, 51\}$)}
+        \label{slika6}
+    \end{figure}
 
 \end{document}
